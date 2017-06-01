@@ -27,17 +27,16 @@ class LibraryList extends Component {
 }
 
 LibraryList.propTypes = {
-  libraries: PropTypes.arrayOf(React.PropTypes.shape({
+  libraries: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   })).isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    libraries: state.libraries,
-  };
-};
+const mapStateToProps = state => ({
+  libraries: state.libraries,
+});
+
 
 export default connect(mapStateToProps)(LibraryList);
