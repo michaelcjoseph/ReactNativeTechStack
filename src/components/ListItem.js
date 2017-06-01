@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  LayoutAnimation,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { CardSection } from './common';
 import * as actions from '../actions';
@@ -12,14 +17,20 @@ const styles = {
 };
 
 class ListItem extends Component {
-  renderDescription() {
-    const { library, selectedLibraryId } = this.props;
+  componentWillUpdate() {
+    LayoutAnimation.spring();
+  }
 
-    if (library.id === selectedLibraryId) {
+  renderDescription() {
+    const { library, expanded } = this.props;
+
+    if (expanded) {
       return (
-        <Text>
-          {library.description}
-        </Text>
+        <CardSection>
+          <Text style={{ flex: 1 }}>
+            {library.description}
+          </Text>
+        </CardSection>
       );
     }
 
@@ -54,11 +65,13 @@ ListItem.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   selectLibrary: PropTypes.func.isRequired,
-  selectedLibraryId: PropTypes.number.isRequired,
+  expanded: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  selectedLibraryId: state.selectedLibraryId,
-});
+const mapStateToProps = (state, ownProps) => {
+  const expanded = state.selectedLibraryId === ownProps.library.id;
+
+  return { expanded };
+};
 
 export default connect(mapStateToProps, actions)(ListItem);
