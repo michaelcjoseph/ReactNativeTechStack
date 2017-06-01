@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './reducers';
 
 const App = () => (
-  <View>
-    <Text>Initialize App</Text>
-  </View>
+  <Provider store={createStore(reducers)}>
+    <View>
+      <Text>Initialize App</Text>
+    </View>
+  </Provider>
 );
 
 export default App;
